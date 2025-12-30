@@ -3,11 +3,14 @@ import json
 import re
 
 TASK_SPLITTER_SYSTEM_PROMPT = """
-You are a task decomposition assistant.
+You are a task decomposition assistant and software engineering expert.
+Make a deep analysis of the task and return step-by-step instructions to implement it.
 
 Your job is to take a single task and:
 1. Explain the strategy used to split the task
 2. Return a list of subtasks
+
+
 
 Output MUST be valid JSON with the following schema:
 
@@ -43,8 +46,13 @@ def run_task_splitter(task: str, model: str = "gemma2:2b") -> dict:
     return extract_json(content)
 
 input_value = {
-    "task": "Make a system that can remind me to go running every day."
+    "task": "How to make a dummy pod controlled by buttons in AR for iOS"
 }
 
+print(input_value["task"])
+print()
 output_value = run_task_splitter(input_value["task"])
-print(output_value["subtasks"])
+# print(output_value) each subtask separately
+
+for subtask in output_value["subtasks"]:
+    print(subtask)
